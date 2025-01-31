@@ -23,9 +23,11 @@ import ProfileSidebar from './ProfileSidebar';
 interface HeaderProps {
   darkMode: boolean;
   setDarkMode: (darkMode: boolean) => void;
+  currentPage: 'home' | 'gpa' | 'cgpa';
+  setCurrentPage: (page: 'home' | 'gpa' | 'cgpa') => void;
 }
 
-const Header:React.FC<HeaderProps> = ({ darkMode, setDarkMode }) => {
+const Header: React.FC<HeaderProps> = ({ darkMode, setDarkMode, currentPage, setCurrentPage }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   
   return (
@@ -51,8 +53,10 @@ const Header:React.FC<HeaderProps> = ({ darkMode, setDarkMode }) => {
                 background: 'linear-gradient(45deg, #2196F3 30%, #21CBF3 90%)',
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
-                letterSpacing: '-0.5px'
+                letterSpacing: '-0.5px',
+                cursor: 'pointer'
               }}
+              onClick={() => setCurrentPage('home')}
             >
               Gradelytics
             </Typography>
@@ -60,11 +64,15 @@ const Header:React.FC<HeaderProps> = ({ darkMode, setDarkMode }) => {
             <Box sx={{ display: { xs: 'none', md: 'flex' }, gap: 1 }}>
               <Button 
                 startIcon={<Calculate />}
+                onClick={() => setCurrentPage('gpa')}
                 sx={{ 
                   borderRadius: '12px',
                   textTransform: 'none',
                   px: 2,
-                  color: darkMode ? 'white' : 'text.primary',
+                  color: currentPage === 'gpa' ? '#2196F3' : (darkMode ? 'white' : 'text.primary'),
+                  backgroundColor: currentPage === 'gpa' 
+                    ? (darkMode ? 'rgba(33, 150, 243, 0.15)' : 'rgba(33, 150, 243, 0.08)')
+                    : 'transparent',
                   '&:hover': {
                     backgroundColor: darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.05)',
                   }
@@ -74,11 +82,15 @@ const Header:React.FC<HeaderProps> = ({ darkMode, setDarkMode }) => {
               </Button>
               <Button 
                 startIcon={<Timeline />}
+                onClick={() => setCurrentPage('cgpa')}
                 sx={{ 
                   borderRadius: '12px',
                   textTransform: 'none',
                   px: 2,
-                  color: darkMode ? 'white' : 'text.primary',
+                  color: currentPage === 'cgpa' ? '#2196F3' : (darkMode ? 'white' : 'text.primary'),
+                  backgroundColor: currentPage === 'cgpa'
+                    ? (darkMode ? 'rgba(33, 150, 243, 0.15)' : 'rgba(33, 150, 243, 0.08)')
+                    : 'transparent',
                   '&:hover': {
                     backgroundColor: darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.05)',
                   }

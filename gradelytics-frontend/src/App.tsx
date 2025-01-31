@@ -2,9 +2,11 @@ import React, { useState, useMemo } from 'react';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { CssBaseline, Box, Typography } from '@mui/material';
 import Header from './components/Header';
+import GpaCalculator from './components/GpaCalculator';
 
 const App: React.FC = () => {
   const [darkMode, setDarkMode] = useState(true);
+  const [currentPage, setCurrentPage] = useState<'home' | 'gpa' | 'cgpa'>('home');
 
   const theme = useMemo(() => createTheme({
     palette: {
@@ -66,35 +68,45 @@ const App: React.FC = () => {
           color: 'text.primary',
         }}
       >
-        <Header darkMode={darkMode} setDarkMode={setDarkMode} />
-        <Box 
-          sx={{ 
-            mt: 8, 
-            p: 3,
-          }}
-        >
-          <Typography 
-            variant="h4" 
+        <Header 
+          darkMode={darkMode} 
+          setDarkMode={setDarkMode}
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+        />
+        
+        {currentPage === 'home' && (
+          <Box 
             sx={{ 
-              fontWeight: 800,
-              background: 'linear-gradient(45deg, #2196F3 30%, #21CBF3 90%)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              mb: 2,
+              mt: 8, 
+              p: 3,
             }}
           >
-            Welcome to Gradelytics
-          </Typography>
-          <Typography 
-            variant="h6" 
-            sx={{ 
-              color: 'text.secondary',
-              maxWidth: 600,
-            }}
-          >
-            Your intelligent companion for academic performance tracking and grade analysis
-          </Typography>
-        </Box>
+            <Typography 
+              variant="h4" 
+              sx={{ 
+                fontWeight: 800,
+                background: 'linear-gradient(45deg, #2196F3 30%, #21CBF3 90%)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                mb: 2,
+              }}
+            >
+              Welcome to Gradelytics
+            </Typography>
+            <Typography 
+              variant="h6" 
+              sx={{ 
+                color: 'text.secondary',
+                maxWidth: 600,
+              }}
+            >
+              Your intelligent companion for academic performance tracking and grade analysis
+            </Typography>
+          </Box>
+        )}
+        
+        {currentPage === 'gpa' && <GpaCalculator />}
       </Box>
     </ThemeProvider>
   );
