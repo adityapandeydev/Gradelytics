@@ -68,9 +68,7 @@ const App: React.FC = () => {
           bgcolor: 'background.default',
           color: 'text.primary',
           overflow: 'hidden',
-          background: theme => darkMode
-            ? 'linear-gradient(145deg, #1e2c3a 0%, #3a5d7c 100%)' // Darker variant
-            : 'linear-gradient(145deg, #F0F7FF 0%, #FFFFFF 100%)',
+          background: 'linear-gradient(145deg, #1e2c3a 0%, #3a5d7c 100%)',
         }}
       >
         <Header 

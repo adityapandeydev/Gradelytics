@@ -46,7 +46,7 @@ const ProfileSidebar: React.FC<ProfileSidebarProps> = ({ open, onClose, darkMode
       sx={{
         '& .MuiDrawer-paper': {
           width: 280,
-          background: theme => darkMode 
+          background: darkMode 
             ? 'linear-gradient(145deg, #283E51 0%, #4B79A1 100%)'
             : 'linear-gradient(145deg, #F0F7FF 0%, #FFFFFF 100%)',
           p: 3,
