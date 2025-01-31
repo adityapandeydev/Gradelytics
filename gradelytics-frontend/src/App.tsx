@@ -3,6 +3,7 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { CssBaseline, Box, Typography } from '@mui/material';
 import Header from './components/Header';
 import GpaCalculator from './components/GpaCalculator';
+import CgpaCalculator from './components/CgpaCalculator';
 
 const App: React.FC = () => {
   const [darkMode, setDarkMode] = useState(true);
@@ -107,6 +108,7 @@ const App: React.FC = () => {
         )}
         
         {currentPage === 'gpa' && <GpaCalculator />}
+        {currentPage === 'cgpa' && <CgpaCalculator />}
       </Box>
     </ThemeProvider>
   );
