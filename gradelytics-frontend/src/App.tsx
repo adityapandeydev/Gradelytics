@@ -22,10 +22,10 @@ const App: React.FC = () => {
       },
       background: {
         default: darkMode 
-          ? '#1A2035' // Dark blue-gray
-          : '#F0F7FF', // Very light blue
+          ? '#283E51' // Base color from the gradient
+          : '#F0F7FF',
         paper: darkMode 
-          ? '#232B45' // Slightly lighter blue-gray
+          ? '#1e2c3a' // Darker variant used in header
           : '#FFFFFF',
       },
       text: {
@@ -67,6 +67,10 @@ const App: React.FC = () => {
           minHeight: '100vh',
           bgcolor: 'background.default',
           color: 'text.primary',
+          overflow: 'hidden',
+          background: theme => darkMode
+            ? 'linear-gradient(145deg, #1e2c3a 0%, #3a5d7c 100%)' // Darker variant
+            : 'linear-gradient(145deg, #F0F7FF 0%, #FFFFFF 100%)',
         }}
       >
         <Header 
@@ -79,13 +83,15 @@ const App: React.FC = () => {
         {currentPage === 'home' && (
           <Box 
             sx={{ 
-              mt: 8, 
-              p: 3,
+              mt: { xs: 2, sm: 4, md: 8 }, 
+              p: { xs: 2, sm: 3 },
+              textAlign: { xs: 'center', md: 'left' },
             }}
           >
             <Typography 
               variant="h4" 
               sx={{ 
+                fontSize: { xs: '1.75rem', sm: '2rem', md: '2.25rem' },
                 fontWeight: 800,
                 background: 'linear-gradient(45deg, #2196F3 30%, #21CBF3 90%)',
                 WebkitBackgroundClip: 'text',
@@ -98,8 +104,10 @@ const App: React.FC = () => {
             <Typography 
               variant="h6" 
               sx={{ 
+                fontSize: { xs: '1rem', sm: '1.15rem', md: '1.25rem' },
                 color: 'text.secondary',
                 maxWidth: 600,
+                mx: { xs: 'auto', md: 0 },
               }}
             >
               Your intelligent companion for academic performance tracking and grade analysis

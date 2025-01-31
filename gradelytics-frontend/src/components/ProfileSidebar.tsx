@@ -8,6 +8,8 @@ import {
   Button,
   Avatar,
   Divider,
+  ListItemIcon,
+  ListItemText,
 } from '@mui/material';
 import {
   Settings,
@@ -41,101 +43,90 @@ const ProfileSidebar: React.FC<ProfileSidebarProps> = ({ open, onClose, darkMode
       anchor="right"
       open={open}
       onClose={onClose}
-      PaperProps={{
-        sx: {
-          width: 320,
-          background: darkMode 
-            ? 'linear-gradient(145deg, #1a1a1a 0%, #2d2d2d 100%)'
-            : 'linear-gradient(145deg, #f8f9fa 0%, #ffffff 100%)',
-          borderLeft: 'none',
-        }
+      sx={{
+        '& .MuiDrawer-paper': {
+          width: 280,
+          background: theme => darkMode 
+            ? 'linear-gradient(145deg, #283E51 0%, #4B79A1 100%)'
+            : 'linear-gradient(145deg, #F0F7FF 0%, #FFFFFF 100%)',
+          p: 3,
+        },
       }}
     >
       <Box sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
-        {/* Header Section */}
-        <Box 
-          sx={{ 
-            p: 3,
-            background: darkMode 
-              ? 'linear-gradient(145deg, #1976D2 0%, #2196F3 100%)'
-              : 'linear-gradient(145deg, #64B5F6 0%, #2196F3 100%)',
-            color: 'white',
-          }}
-        >
-          <Box sx={{ textAlign: 'center', mb: 2 }}>
-            <Avatar 
-              sx={{ 
-                width: 80, 
-                height: 80, 
-                margin: '0 auto 16px',
-                backgroundColor: 'rgba(255,255,255,0.2)',
-                border: '4px solid rgba(255,255,255,0.3)',
-              }}
-            >
-              <AccountCircle sx={{ fontSize: 40 }} />
-            </Avatar>
-            <Typography variant="h6" sx={{ fontWeight: 600 }}>John Doe</Typography>
-            <Typography variant="body2" sx={{ opacity: 0.8 }}>
-              john.doe@university.edu
+        {/* Profile Section */}
+        <Box sx={{ 
+          display: 'flex', 
+          alignItems: 'center', 
+          gap: 2,
+          mb: 3,
+        }}>
+          <Avatar 
+            sx={{ 
+              width: 48, 
+              height: 48,
+              bgcolor: '#2196F3',
+            }}
+          >
+            <AccountCircle />
+          </Avatar>
+          <Box>
+            <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>
+              John Doe
+            </Typography>
+            <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+              john.doe@example.com
             </Typography>
           </Box>
         </Box>
 
+        <Divider sx={{ mb: 2 }} />
+
         {/* Menu Items */}
-        <Box sx={{ p: 2, flex: 1 }}>
-          <List>
-            {menuItems.map((item, index) => (
-              <React.Fragment key={index}>
-                <ListItem sx={{ p: 0.5 }}>
-                  <Button
-                    fullWidth
-                    startIcon={item.icon}
-                    sx={{
-                      justifyContent: 'flex-start',
-                      textTransform: 'none',
-                      borderRadius: '12px',
-                      padding: '12px 16px',
-                      color: item.primary ? '#2196F3' : (darkMode ? 'white' : '#1a1a1a'),
-                      backgroundColor: item.primary 
-                        ? (darkMode ? 'rgba(33, 150, 243, 0.15)' : 'rgba(33, 150, 243, 0.08)')
-                        : 'transparent',
-                      '&:hover': {
-                        backgroundColor: darkMode 
-                          ? 'rgba(255,255,255,0.05)' 
-                          : 'rgba(0,0,0,0.04)',
-                      }
-                    }}
-                  >
-                    {item.text}
-                  </Button>
-                </ListItem>
-                {index === 2 && (
-                  <Divider sx={{ my: 1, borderColor: darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)' }} />
-                )}
-              </React.Fragment>
-            ))}
-          </List>
-        </Box>
+        <List sx={{ flex: 1 }}>
+          {menuItems.map((item, index) => (
+            <ListItem 
+              key={index}
+              sx={{ 
+                mb: 1,
+                borderRadius: 2,
+                backgroundColor: item.primary 
+                  ? (darkMode ? 'rgba(33, 150, 243, 0.15)' : 'rgba(33, 150, 243, 0.08)')
+                  : 'transparent',
+              }}
+            >
+              <ListItemIcon sx={{ 
+                color: item.primary ? '#2196F3' : 'inherit',
+                minWidth: 40,
+              }}>
+                {item.icon}
+              </ListItemIcon>
+              <ListItemText 
+                primary={item.text}
+                sx={{ 
+                  color: item.primary ? '#2196F3' : 'inherit',
+                }}
+              />
+            </ListItem>
+          ))}
+        </List>
 
         {/* Logout Button */}
-        <Box sx={{ p: 2 }}>
-          <Button
-            fullWidth
-            startIcon={<Logout />}
-            sx={{
-              justifyContent: 'flex-start',
-              textTransform: 'none',
-              borderRadius: '12px',
-              padding: '12px 16px',
-              color: '#FF4B4B',
-              '&:hover': {
-                backgroundColor: 'rgba(255,75,75,0.1)',
-              }
-            }}
-          >
-            Logout
-          </Button>
-        </Box>
+        <Button
+          startIcon={<Logout />}
+          fullWidth
+          sx={{
+            borderRadius: 2,
+            p: 1.5,
+            justifyContent: 'flex-start',
+            color: '#FF4B4B',
+            '&:hover': {
+              backgroundColor: 'rgba(255,75,75,0.1)',
+            }
+          }}
+        >
+          Logout
+        </Button>
       </Box>
     </Drawer>
   );

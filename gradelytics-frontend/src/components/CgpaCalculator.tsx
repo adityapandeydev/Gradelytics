@@ -56,8 +56,20 @@ const CgpaCalculator: React.FC = () => {
   };
 
   return (
-    <Box sx={{ p: 3, maxWidth: 800, margin: '0 auto' }}>
-      <Typography variant="h4" sx={{ mb: 4, fontWeight: 700, textAlign: 'center' }}>
+    <Box sx={{ 
+      p: { xs: 2, sm: 3 }, 
+      maxWidth: { xs: '100%', sm: 600, md: 800 }, 
+      margin: '0 auto' 
+    }}>
+      <Typography 
+        variant="h4" 
+        sx={{ 
+          mb: { xs: 3, md: 4 }, 
+          fontWeight: 700, 
+          textAlign: 'center',
+          fontSize: { xs: '1.75rem', sm: '2rem', md: '2.25rem' }
+        }}
+      >
         CGPA Calculator
       </Typography>
 
@@ -66,7 +78,7 @@ const CgpaCalculator: React.FC = () => {
         onSubmit={calculateCGPA}
         elevation={0} 
         sx={{ 
-          p: 4,
+          p: { xs: 2, sm: 3, md: 4 },
           borderRadius: 3,
           border: theme => `1px solid ${theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}`,
           '& input[type=number]': {
@@ -78,13 +90,18 @@ const CgpaCalculator: React.FC = () => {
           },
         }}
       >
-        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+        <Box sx={{ 
+          display: 'flex', 
+          flexDirection: 'column', 
+          gap: { xs: 2, sm: 3 }
+        }}>
           <TextField
             label="Credits till Last Semester"
             value={formData.creditsLastSem}
             onChange={handleChange('creditsLastSem')}
             type="number"
             required
+            fullWidth
             InputProps={{
               endAdornment: <InputAdornment position="end">max 200</InputAdornment>,
             }}
@@ -101,6 +118,7 @@ const CgpaCalculator: React.FC = () => {
             onChange={handleChange('cgpaLastSem')}
             type="number"
             required
+            fullWidth
             InputProps={{
               endAdornment: <InputAdornment position="end">max 10</InputAdornment>,
             }}
@@ -117,6 +135,7 @@ const CgpaCalculator: React.FC = () => {
             onChange={handleChange('creditsThisSem')}
             type="number"
             required
+            fullWidth
             InputProps={{
               endAdornment: <InputAdornment position="end">max 31</InputAdornment>,
             }}
@@ -133,6 +152,7 @@ const CgpaCalculator: React.FC = () => {
             onChange={handleChange('gpaThisSem')}
             type="number"
             required
+            fullWidth
             InputProps={{
               endAdornment: <InputAdornment position="end">max 10</InputAdornment>,
             }}
@@ -149,7 +169,7 @@ const CgpaCalculator: React.FC = () => {
             size="large"
             startIcon={<Calculate />}
             sx={{ 
-              mt: 2,
+              mt: { xs: 1, sm: 2 },
               py: 1.5,
               borderRadius: 2,
               background: 'linear-gradient(45deg, #2196F3 30%, #21CBF3 90%)',
@@ -162,9 +182,9 @@ const CgpaCalculator: React.FC = () => {
 
       <Fade in={cgpa !== null}>
         <Box sx={{ 
-          mt: 4, 
+          mt: { xs: 3, md: 4 }, 
           textAlign: 'center',
-          p: 3,
+          p: { xs: 2, sm: 3 },
           borderRadius: 3,
           bgcolor: 'background.paper',
           border: theme => `1px solid ${theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}`,
@@ -178,4 +198,4 @@ const CgpaCalculator: React.FC = () => {
   );
 };
 
-export default CgpaCalculator; 
+export default CgpaCalculator;

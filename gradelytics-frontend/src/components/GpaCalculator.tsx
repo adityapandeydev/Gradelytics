@@ -105,8 +105,24 @@ const GpaCalculator: React.FC = () => {
   };
 
   return (
-    <Box sx={{ p: 3, maxWidth: 1200, margin: '0 auto' }}>
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 4 }}>
+    <Box sx={{ 
+      p: { xs: 2, sm: 3 }, 
+      maxWidth: 1200, 
+      margin: '0 auto',
+      height: { 
+        xs: 'calc(100vh - 64px)',
+        md: 'calc(100vh - 80px)' // Adjust for larger header on desktop
+      },
+      display: 'flex',
+      flexDirection: 'column',
+      overflow: 'hidden', // Prevent scroll
+    }}>
+      <Box sx={{ 
+        display: 'flex', 
+        justifyContent: 'space-between', 
+        alignItems: 'center', 
+        mb: 2 
+      }}>
         <Typography variant="h4" sx={{ fontWeight: 700 }}>
           GPA Calculator
         </Typography>
@@ -133,9 +149,34 @@ const GpaCalculator: React.FC = () => {
         borderRadius: 3,
         overflow: 'hidden',
         border: theme => `1px solid ${theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}`,
+        flex: 1,
+        display: 'flex',
+        flexDirection: 'column',
+        mb: 1,
       }}>
-        <TableContainer sx={{ maxHeight: 440 }}>
-          <Table stickyHeader>
+        <TableContainer sx={{ 
+          flex: 1,
+          '& .MuiTable-root': {
+            '& .MuiTableCell-root': {
+              py: { xs: 1, sm: 1.5 },
+            }
+          }
+        }}>
+          <Table 
+            stickyHeader 
+            sx={{
+              '& .MuiTableCell-root': {
+                px: { xs: 1, sm: 2 },
+                py: { xs: 1.5, sm: 2 },
+                '&:first-of-type': {
+                  pl: { xs: 2, sm: 3 }
+                },
+                '&:last-of-type': {
+                  pr: { xs: 2, sm: 3 }
+                }
+              }
+            }}
+          >
             <TableHead>
               <TableRow>
                 <TableCell>Course</TableCell>
@@ -223,7 +264,13 @@ const GpaCalculator: React.FC = () => {
         </TableContainer>
       </Paper>
 
-      <Box sx={{ mt: 3, display: 'flex', gap: 2, justifyContent: 'center' }}>
+      <Box sx={{ 
+        mt: 2,
+        display: 'flex', 
+        gap: 2, 
+        justifyContent: 'center',
+        mb: 1,
+      }}>
         <Button
           variant="outlined"
           startIcon={<AddIcon />}
@@ -248,9 +295,9 @@ const GpaCalculator: React.FC = () => {
 
       <Fade in={gpa !== null}>
         <Box sx={{ 
-          mt: 4, 
+          mt: 2,
           textAlign: 'center',
-          p: 3,
+          p: 2,
           borderRadius: 3,
           bgcolor: 'background.paper',
           border: theme => `1px solid ${theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}`,

@@ -10,6 +10,12 @@ import {
   Badge,
   Avatar,
   Button,
+  Drawer,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  Divider,
 } from '@mui/material';
 import {
   Search,
@@ -17,6 +23,8 @@ import {
   Notifications,
   Calculate,
   Timeline,
+  Menu as MenuIcon,
+  Home as HomeIcon,
 } from '@mui/icons-material';
 import ProfileSidebar from './ProfileSidebar';
 
@@ -27,8 +35,95 @@ interface HeaderProps {
   setCurrentPage: (page: 'home' | 'gpa' | 'cgpa') => void;
 }
 
+interface MobileNavigationProps {
+  open: boolean;
+  onClose: () => void;
+  darkMode: boolean;
+  currentPage: 'home' | 'gpa' | 'cgpa';
+  setCurrentPage: (page: 'home' | 'gpa' | 'cgpa') => void;
+}
+
+const MobileNavigation: React.FC<MobileNavigationProps> = ({ 
+  open, 
+  onClose, 
+  darkMode, 
+  currentPage, 
+  setCurrentPage 
+}) => {
+  const navigationItems = [
+    { icon: <HomeIcon />, text: 'Home', value: 'home' },
+    { icon: <Calculate />, text: 'GPA Calculator', value: 'gpa' },
+    { icon: <Timeline />, text: 'CGPA Calculator', value: 'cgpa' },
+  ];
+
+  return (
+    <Drawer
+      anchor="left"
+      open={open}
+      onClose={onClose}
+      sx={{
+        display: { xs: 'block', md: 'none' },
+        '& .MuiDrawer-paper': {
+          width: 280,
+          background: theme => darkMode 
+            ? 'linear-gradient(145deg, #283E51 0%, #4B79A1 100%)'
+            : 'linear-gradient(145deg, #F0F7FF 0%, #FFFFFF 100%)',
+        },
+      }}
+    >
+      <Box sx={{ p: 2 }}>
+        <Typography 
+          variant="h6" 
+          sx={{ 
+            mb: 2,
+            fontWeight: 700,
+            background: 'linear-gradient(45deg, #2196F3 30%, #21CBF3 90%)',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+          }}
+        >
+          Gradelytics
+        </Typography>
+        <Divider sx={{ mb: 2 }} />
+        <List>
+          {navigationItems.map((item) => (
+            <ListItem 
+              key={item.value}
+              onClick={() => {
+                setCurrentPage(item.value as 'home' | 'gpa' | 'cgpa');
+                onClose();
+              }}
+              sx={{
+                borderRadius: 2,
+                mb: 1,
+                backgroundColor: currentPage === item.value 
+                  ? (darkMode ? 'rgba(33, 150, 243, 0.15)' : 'rgba(33, 150, 243, 0.08)')
+                  : 'transparent',
+              }}
+            >
+              <ListItemIcon sx={{ 
+                color: currentPage === item.value ? '#2196F3' : 'inherit',
+                minWidth: 40,
+              }}>
+                {item.icon}
+              </ListItemIcon>
+              <ListItemText 
+                primary={item.text} 
+                sx={{ 
+                  color: currentPage === item.value ? '#2196F3' : 'inherit',
+                }}
+              />
+            </ListItem>
+          ))}
+        </List>
+      </Box>
+    </Drawer>
+  );
+};
+
 const Header: React.FC<HeaderProps> = ({ darkMode, setDarkMode, currentPage, setCurrentPage }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [mobileNavOpen, setMobileNavOpen] = useState(false);
   
   return (
     <>
@@ -37,18 +132,29 @@ const Header: React.FC<HeaderProps> = ({ darkMode, setDarkMode, currentPage, set
         elevation={0}
         sx={{
           background: darkMode 
-            ? 'linear-gradient(145deg, #1a1a1a 0%, #2d2d2d 100%)'
+            ? 'linear-gradient(145deg, #1e2c3a 0%, #3a5d7c 100%)'
             : 'linear-gradient(145deg, #ffffff 0%, #f8f9fa 100%)',
           borderBottom: '1px solid',
           borderColor: darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)',
         }}
       >
-        <Toolbar sx={{ height: 80, px: { xs: 2, md: 4 } }}>
+        <Toolbar sx={{ height: { xs: 64, md: 80 }, px: { xs: 2, md: 4 } }}>
           {/* Left Section */}
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 3 }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: { xs: 1, md: 3 } }}>
+            <IconButton
+              onClick={() => setMobileNavOpen(true)}
+              sx={{ 
+                display: { xs: 'flex', md: 'none' },
+                color: darkMode ? 'white' : 'text.primary',
+              }}
+            >
+              <MenuIcon />
+            </IconButton>
+            
             <Typography 
               variant="h5" 
               sx={{ 
+                fontSize: { xs: '1.25rem', md: '1.5rem' },
                 fontWeight: 800,
                 background: 'linear-gradient(45deg, #2196F3 30%, #21CBF3 90%)',
                 WebkitBackgroundClip: 'text',
@@ -101,12 +207,12 @@ const Header: React.FC<HeaderProps> = ({ darkMode, setDarkMode, currentPage, set
             </Box>
           </Box>
 
-          {/* Center Section */}
+          {/* Center Section - Hide on mobile */}
           <Box sx={{ 
             flex: 1,
-            display: 'flex',
+            display: { xs: 'none', md: 'flex' },
             justifyContent: 'center',
-            px: { xs: 2, md: 4 }
+            px: 4
           }}>
             <Box sx={{ 
               maxWidth: '400px',
@@ -138,7 +244,12 @@ const Header: React.FC<HeaderProps> = ({ darkMode, setDarkMode, currentPage, set
           </Box>
 
           {/* Right Section */}
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+          <Box sx={{ 
+            display: 'flex', 
+            alignItems: 'center', 
+            gap: { xs: 1, md: 2 },
+            ml: { xs: 'auto', md: 0 }
+          }}>
             <IconButton 
               sx={{ 
                 borderRadius: '12px',
@@ -199,13 +310,16 @@ const Header: React.FC<HeaderProps> = ({ darkMode, setDarkMode, currentPage, set
         </Toolbar>
       </AppBar>
 
-      <Toolbar sx={{ height: 80 }} /> {/* Spacing */}
-
-      <ProfileSidebar 
-        open={sidebarOpen}
-        onClose={() => setSidebarOpen(false)}
+      <MobileNavigation 
+        open={mobileNavOpen}
+        onClose={() => setMobileNavOpen(false)}
         darkMode={darkMode}
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
       />
+      
+      <Toolbar sx={{ height: { xs: 64, md: 80 } }} />
+      <ProfileSidebar open={sidebarOpen} onClose={() => setSidebarOpen(false)} darkMode={darkMode} />
     </>
   );
 };
