@@ -57,8 +57,8 @@ const ProfileSidebar: React.FC<ProfileSidebarProps> = ({ open, onClose, darkMode
           sx={{ 
             p: 3,
             background: darkMode 
-              ? 'linear-gradient(145deg, #2196F3 0%, #21CBF3 100%)'
-              : 'linear-gradient(145deg, #2196F3 0%, #21CBF3 100%)',
+              ? 'linear-gradient(145deg, #1976D2 0%, #2196F3 100%)'
+              : 'linear-gradient(145deg, #64B5F6 0%, #2196F3 100%)',
             color: 'white',
           }}
         >
@@ -97,7 +97,7 @@ const ProfileSidebar: React.FC<ProfileSidebarProps> = ({ open, onClose, darkMode
                       padding: '12px 16px',
                       color: item.primary ? '#2196F3' : (darkMode ? 'white' : '#1a1a1a'),
                       backgroundColor: item.primary 
-                        ? (darkMode ? 'rgba(33, 150, 243, 0.1)' : 'rgba(33, 150, 243, 0.1)')
+                        ? (darkMode ? 'rgba(33, 150, 243, 0.15)' : 'rgba(33, 150, 243, 0.08)')
                         : 'transparent',
                       '&:hover': {
                         backgroundColor: darkMode 
@@ -127,7 +127,7 @@ const ProfileSidebar: React.FC<ProfileSidebarProps> = ({ open, onClose, darkMode
               textTransform: 'none',
               borderRadius: '12px',
               padding: '12px 16px',
-              color: darkMode ? '#FF4B4B' : '#FF4B4B',
+              color: '#FF4B4B',
               '&:hover': {
                 backgroundColor: 'rgba(255,75,75,0.1)',
               }
