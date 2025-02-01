@@ -26,9 +26,17 @@ interface ProfileSidebarProps {
   open: boolean;
   onClose: () => void;
   darkMode: boolean;
+  onLogout: () => void;
+  userEmail: string;
 }
 
-const ProfileSidebar: React.FC<ProfileSidebarProps> = ({ open, onClose, darkMode }) => {
+const ProfileSidebar: React.FC<ProfileSidebarProps> = ({ 
+  open, 
+  onClose, 
+  darkMode, 
+  onLogout,
+  userEmail 
+}) => {
   const menuItems = [
     { icon: <Person />, text: 'Profile', primary: true },
     { icon: <School />, text: 'My Courses' },
@@ -72,10 +80,7 @@ const ProfileSidebar: React.FC<ProfileSidebarProps> = ({ open, onClose, darkMode
           </Avatar>
           <Box>
             <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>
-              John Doe
-            </Typography>
-            <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-              john.doe@example.com
+              {userEmail}
             </Typography>
           </Box>
         </Box>
@@ -115,6 +120,7 @@ const ProfileSidebar: React.FC<ProfileSidebarProps> = ({ open, onClose, darkMode
         <Button
           startIcon={<Logout />}
           fullWidth
+          onClick={onLogout}
           sx={{
             borderRadius: 2,
             p: 1.5,

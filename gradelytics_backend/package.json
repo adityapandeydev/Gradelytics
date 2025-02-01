@@ -1,0 +1,17 @@
+{
+  "name": "gradelytics_backend",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "bun run --watch src/index.ts"
+  },
+  "dependencies": {
+    "@elysiajs/cors": "^1.2.0",
+    "@supabase/supabase-js": "^2.39.3",
+    "elysia": "^0.8.17"
+  },
+  "devDependencies": {
+    "bun-types": "latest",
+    "typescript": "^5.3.3"
+  },
+  "module": "src/index.js"
+}

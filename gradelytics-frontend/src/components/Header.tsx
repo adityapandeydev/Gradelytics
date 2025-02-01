@@ -27,12 +27,15 @@ import {
   Home as HomeIcon,
 } from '@mui/icons-material';
 import ProfileSidebar from './ProfileSidebar';
+import { supabase } from '../config/supabase';
+import { Session } from '@supabase/supabase-js';
 
 interface HeaderProps {
   darkMode: boolean;
   setDarkMode: (darkMode: boolean) => void;
   currentPage: 'home' | 'gpa' | 'cgpa';
   setCurrentPage: (page: 'home' | 'gpa' | 'cgpa') => void;
+  session: Session | null;
 }
 
 interface MobileNavigationProps {
@@ -121,10 +124,17 @@ const MobileNavigation: React.FC<MobileNavigationProps> = ({
   );
 };
 
-const Header: React.FC<HeaderProps> = ({ darkMode, setDarkMode, currentPage, setCurrentPage }) => {
+const Header: React.FC<HeaderProps> = ({ darkMode, setDarkMode, currentPage, setCurrentPage, session }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
   
+  const handleLogout = async () => {
+    const { error } = await supabase.auth.signOut();
+    if (error) {
+      console.error('Error logging out:', error.message);
+    }
+  };
+
   return (
     <>
       <AppBar 
@@ -319,7 +329,13 @@ const Header: React.FC<HeaderProps> = ({ darkMode, setDarkMode, currentPage, set
       />
       
       <Toolbar sx={{ height: { xs: 64, md: 80 } }} />
-      <ProfileSidebar open={sidebarOpen} onClose={() => setSidebarOpen(false)} darkMode={darkMode} />
+      <ProfileSidebar 
+        open={sidebarOpen} 
+        onClose={() => setSidebarOpen(false)} 
+        darkMode={darkMode}
+        onLogout={handleLogout}
+        userEmail={session?.user?.email ?? 'No User'}
+      />
     </>
   );
 };
