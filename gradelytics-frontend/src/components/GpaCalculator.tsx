@@ -111,11 +111,11 @@ const GpaCalculator: React.FC = () => {
       margin: '0 auto',
       height: { 
         xs: 'calc(100vh - 64px)',
-        md: 'calc(100vh - 80px)' // Adjust for larger header on desktop
+        md: 'calc(100vh - 80px)' 
       },
       display: 'flex',
       flexDirection: 'column',
-      overflow: 'hidden', // Prevent scroll
+      overflow: 'hidden', 
     }}>
       <Box sx={{ 
         display: 'flex', 
