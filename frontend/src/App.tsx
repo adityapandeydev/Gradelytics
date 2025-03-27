@@ -8,6 +8,7 @@ function App() {
         Will i finish this project this time?
         Checking drive change
         No ideas comming
+        Still waiting
       </h1>
     </div>
   )
