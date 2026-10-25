@@ -4,6 +4,7 @@ import "@fontsource-variable/dm-sans";
 import "./index.css";
 import App from "./App.tsx";
 import "./motion.css";
+import "./calculations.css";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>

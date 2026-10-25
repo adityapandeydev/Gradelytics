@@ -23,6 +23,8 @@ import {
 import { csvExport, requiredAverage, summarize } from "../lib/academics";
 import type { Course, GradingProfile } from "../lib/academics";
 import { useStoredState } from "../lib/useStoredState";
+import { useCalculation } from "../lib/useCalculation";
+import { CalculationStatus } from "./CalculationStatus";
 import {
   CourseTable,
   ExportButton,
@@ -113,12 +115,14 @@ export function Records({
       (semester === "all" || c.semester === Number(semester)) &&
       `${c.name} ${c.code}`.toLowerCase().includes(search.toLowerCase()),
   );
-  const totals = summarize(
-    courses.filter(
-      (c) => semester === "all" || c.semester === Number(semester),
-    ),
-    profile,
+  const semesterCourses = courses.filter(
+    (c) => semester === "all" || c.semester === Number(semester),
   );
+  const calculation = useCalculation("gpa", {
+    courses: semesterCourses,
+    profile,
+  });
+  const totals = calculation.data ?? summarize(semesterCourses, profile);
   function add(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setError("");
@@ -348,6 +352,7 @@ export function Records({
           {error}
         </p>
       )}
+      <CalculationStatus state={calculation} />
       <div className="record-summary">
         <span>
           {semester === "all" ? "Cumulative GPA" : "Semester GPA"}
@@ -487,9 +492,19 @@ export function Simulator({ courses, profile, notify }: Shared) {
     { name: string; overrides: Record<string, string> }[]
   >(`gradelytics-scenarios-${profile.id}-v1`, []);
   const [name, setName] = useState("My next best move");
-  const current = summarize(courses, profile),
-    projected = summarize(courses, profile, overrides);
-  const delta = (projected.gpa ?? 0) - (current.gpa ?? 0);
+  const calculation = useCalculation("improvement", {
+    courses,
+    profile,
+    overrides,
+  });
+  const current = calculation.data?.current ?? summarize(courses, profile);
+  const projected =
+    calculation.data?.projected ?? summarize(courses, profile, overrides);
+  const delta = calculation.data
+    ? calculation.data.gpaChange
+    : current.gpa !== null && projected.gpa !== null
+      ? projected.gpa - current.gpa
+      : null;
   const eligible = courses.filter((c) => c.credits > 0);
   const selected = Object.keys(overrides)
     .map((id) => eligible.find((c) => c.id === id))
@@ -506,6 +521,7 @@ export function Simulator({ courses, profile, notify }: Shared) {
           What-if workspace
         </span>
       </PageHeading>
+      <CalculationStatus state={calculation} />
       <div className="workspace-grid">
         <section className="panel simulator-editor">
           <SectionHeading
@@ -637,10 +653,11 @@ export function Simulator({ courses, profile, notify }: Shared) {
               <strong>{projected.gpa?.toFixed(2) ?? "—"}</strong>
             </div>
           </div>
-          <div className={`delta-badge ${delta < 0 ? "negative" : ""}`}>
+          <div className={`delta-badge ${(delta ?? 0) < 0 ? "negative" : ""}`}>
             <ArrowUpRight size={19} />
-            {delta >= 0 ? "+" : ""}
-            {delta.toFixed(2)} CGPA change
+            {delta === null
+              ? "GPA change unavailable"
+              : `${delta >= 0 ? "+" : ""}${delta.toFixed(2)} CGPA change`}
           </div>
           <div className="projection-details">
             <span>
@@ -709,25 +726,38 @@ export function Simulator({ courses, profile, notify }: Shared) {
 }
 
 export function Goals({ courses, profile, navigate }: Shared) {
-  const totals = summarize(courses, profile);
-  const [target, setTarget] = useState(profile.max * 0.85);
-  const [remaining, setRemaining] = useState(Math.max(1, 160 - totals.credits));
-  const [semesters, setSemesters] = useState(2);
-  const required = requiredAverage(
-    totals.points,
-    totals.credits,
-    remaining,
-    target,
+  const localTotals = summarize(courses, profile);
+  const [target, setTarget] = useState(() =>
+    Number((profile.max * 0.85).toFixed(4)),
   );
-  const reachable = required !== null && required <= profile.max;
+  const [remaining, setRemaining] = useState(
+    Math.max(1, 160 - localTotals.credits),
+  );
+  const [semesters, setSemesters] = useState(2);
+  const calculation = useCalculation("target", {
+    courses,
+    profile,
+    target,
+    futureCredits: remaining,
+  });
+  const totals = calculation.data?.current ?? localTotals;
+  const required =
+    calculation.data?.requiredAverage ??
+    requiredAverage(localTotals.points, localTotals.credits, remaining, target);
+  const reachable =
+    calculation.data?.reachable ??
+    (required !== null && required <= profile.max);
   const maxPossible =
-    (totals.points + remaining * profile.max) / (totals.credits + remaining);
+    calculation.data?.maximumPossible ??
+    (localTotals.points + remaining * profile.max) /
+      (localTotals.credits + remaining);
   return (
     <>
       <PageHeading
         title="Give your ambition a direction"
         description="Work backward from your goal. Find a path that feels possible."
       />
+      <CalculationStatus state={calculation} />
       <div className="workspace-grid">
         <section className="panel goal-editor">
           <SectionHeading

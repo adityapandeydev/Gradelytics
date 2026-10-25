@@ -1,6 +1,6 @@
 # Gradelytics frontend preview
 
-An interactive academic workspace built with React, TypeScript, Vite, Bun, and Tailwind CSS v4. This stage is entirely frontend: no backend, accounts, or database connections.
+An interactive academic workspace built with React, TypeScript, Vite, Bun, and Tailwind CSS v4. Academic records remain in this browser. The Go API verifies GPA, improvement, and target calculations; accounts and database persistence are not connected yet.
 
 ## Run locally
 
@@ -12,6 +12,10 @@ bun run dev
 ```
 
 The local preview is available at http://localhost:5173. Use the theme button in the header to compare the light and dark palettes.
+
+For verified calculations, start the Go API in a second terminal from `../backend` with `go run ./cmd/api`. Vite forwards `/api` requests to `http://127.0.0.1:8080`; set `API_PROXY_TARGET` before starting Vite to override this development target. Production hosting must route `/api` to the Go service on the same origin.
+
+While a request is pending or the service is unavailable, the interface explicitly labels the immediately available local estimate. Retry restores live verification without losing edits. Requests debounce for 120ms, abort on changed inputs or navigation, time out after five seconds, and never apply a result to different inputs. Only course IDs, credits, grades, and grading mappings are sent for calculation; names and attendance are omitted.
 
 ## Explore
 
@@ -34,7 +38,7 @@ The preview counts failed credits in GPA, excludes pass-only grades, and treats 
 
 Buttons have a brief press and centered ink expansion; navigation selections fill from the center. The sun/moon switch rotates and crossfades. Page changes use short, interruptible Web Animations with an inert copy of the outgoing content, keeping navigation clickable throughout. Charts and progress fills have brief entrances, with a reduced-motion path. No animation dependency was added.
 
-The initial Go calculation API is in `../backend`, with its contract in `../backend/API.md`. The preview is intentionally still local; database-backed records and API integration come next.
+The Go calculation API is in `../backend`, with its contract in `../backend/API.md`. Overview and semester GPA, improvement scenarios, and target planning use its verified results. Database-backed records and account ownership come next.
 
 ## Checks
 

@@ -6,7 +6,7 @@ First Go backend slice: a stateless, validated academic calculation API. Standar
 go run ./cmd/api
 ```
 
-The default listener is `127.0.0.1:8080`. `HTTP_ADDR` can override it. Liveness is available at `GET /healthz`. The frontend stays on its browser-local preview; it is not connected to these endpoints yet.
+The default listener is `127.0.0.1:8080`. `HTTP_ADDR` can override it. Liveness is available at `GET /healthz`. The Vite frontend proxies `/api` to this listener and uses the endpoints for verified GPA, improvement, and target calculations. Academic records still live in browser storage.
 
 ```sh
 go test ./...
@@ -18,4 +18,4 @@ See [API.md](API.md) for the request format, error contract, limits, and deferre
 
 Calculation inputs accumulate with fixed-point integers, with no premature GPA rounding. Outputs expose six decimal places of GPA precision. HTTP input is bounded and strictly decoded, responses never cache academic results, the server uses timeouts and graceful shutdown, and request bodies are not logged.
 
-PostgreSQL persistence, accounts, ownership authorization, institution policy versions, and frontend integration are the next backend stages. Exam assessment formulas remain deferred.
+PostgreSQL persistence, accounts, ownership authorization, and institution policy versions are the next backend stages. Exam assessment formulas remain deferred.

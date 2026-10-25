@@ -1,6 +1,8 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { flushSync } from "react-dom";
 import { usePressFeedback } from "./lib/usePressFeedback";
+import { useCalculation } from "./lib/useCalculation";
+import { CalculationStatus } from "./components/CalculationStatus";
 import { useStoredState } from "./lib/useStoredState";
 import {
   ArrowDownToLine,
@@ -100,7 +102,12 @@ export default function App() {
   const profile =
     gradingProfiles.find((p) => p.id === profileId) ?? gradingProfiles[0];
   const courses = records[profile.id] ?? createDemo(profile);
-  const totals = summarize(courses, profile);
+  const calculation = useCalculation(
+    "gpa",
+    { courses, profile },
+    page === "overview",
+  );
+  const totals = calculation.data ?? summarize(courses, profile);
   const latestSemester = Math.max(1, ...courses.map((c) => c.semester));
   const setCourses = (update: Course[] | ((previous: Course[]) => Course[])) =>
     setRecords((previous) => ({
@@ -462,6 +469,7 @@ export default function App() {
                       ))}
                     </Select>
                   </div>
+                  <CalculationStatus state={calculation} />
                   <section className="stats-row" aria-label="Academic summary">
                     <div className="stat primary-stat">
                       <span>

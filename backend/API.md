@@ -1,6 +1,6 @@
 # Calculation API, first slice
 
-The backend is a stateless Go service. It receives academic data for a calculation, validates it, and returns a result. It does not store student records, authenticate users, or connect to a database yet. The frontend preview continues to use browser-local data.
+The backend is a stateless Go service. It receives academic data for a calculation, validates it, and returns a result. It does not store student records, authenticate users, or connect to a database yet. The frontend uses browser-local records and sends calculation requests through Vite's same-origin `/api` proxy. It shows verified server results when available and explicitly labeled local estimates during pending or failed requests.
 
 ## Routes
 
@@ -46,4 +46,4 @@ Add `"target": 8.5, "futureCredits": 46` to the base request. The response inclu
 
 ## Next backend slices
 
-PostgreSQL persistence, versioned institution grading policies, course attempts, accounts and ownership checks, and then frontend API integration. Assessment/exam marking remains deferred. No database URL or credentials are needed to run this initial service.
+PostgreSQL persistence, versioned institution grading policies, course attempts, accounts, and ownership checks. Assessment/exam marking remains deferred. No database URL or credentials are needed to run the calculation service.

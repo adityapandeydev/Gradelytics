@@ -14,7 +14,7 @@ The frontend preview uses clearly labeled fictional data and browser-local stora
 
 The user approved the palette, typography, and layout and requested quick center-expanding button fills, press feedback, an animated theme toggle, page transitions, and chart/progress entrances. Preserve reduced-motion access.
 
-Backend work is now authorized. The first slice is a stateless Go calculation API, separate from the preview. PostgreSQL persistence, accounts, ownership checks, and frontend integration remain subsequent stages; do not imply they already exist.
+Backend work is authorized. The stateless Go calculation API is connected to the overview, academic-record summaries, grade simulator, and target planner. Results distinguish live verification from local estimates; unavailable requests can be retried. Records remain browser-local. PostgreSQL persistence, accounts, and ownership checks remain subsequent stages; do not imply they already exist.
 
 ## Brand commitments
 
