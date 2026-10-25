@@ -37,4 +37,4 @@ From `frontend`: `bun run build`, `bun run lint`, and `bun test`.
 
 From `backend`: `go test ./...`, `go vet ./...`, and `go build ./...`.
 
-See [frontend/README.md](frontend/README.md), [backend/README.md](backend/README.md), and [backend/API.md](backend/API.md) for details.
+See [frontend/README.md](frontend/README.md) and [backend/API.md](backend/API.md) for details.
