@@ -1,1 +1,153 @@
 @import "tailwindcss";
+@theme {
+  --font-sans: "DM Sans Variable", "Segoe UI", sans-serif;
+  --color-plum: #3a0f34;
+  --color-paper: #dde3e8;
+  --color-apricot: #efd0b6;
+}
+:root {
+  font-family: var(--font-sans);
+  color: #3a0f34;
+  background: #dde3e8;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  --canvas: #dde3e8;
+  --surface: #f9fafb;
+  --surface-alt: #eff2f5;
+  --rail: #e8edf1;
+  --ink: #3a0f34;
+  --muted: #6b606e;
+  --border: #cbd0d6;
+  --border-soft: #e1e3e8;
+  --selected: #3a0f34;
+  --on-selected: #f0eaf0;
+  --hover: #d5dbe1;
+  --success: #37674f;
+  --success-bg: #e4ede6;
+  --danger: #9b3a3d;
+  --danger-bg: #f4e6e5;
+  --warm: #f1dfd0;
+  --warm-ink: #60442e;
+  --chart: #76456c;
+  --goal-bg: #3a0f34;
+  --goal-ink: #f0eaf0;
+  --goal-muted: #d1bfcf;
+  --goal-button: #efd0b6;
+  --goal-button-ink: #3a0f34;
+}
+:root[data-theme="dark"] {
+  color: #dde3e8;
+  background: #3a0f34;
+  --canvas: #3a0f34;
+  --surface: #471d40;
+  --surface-alt: #3e1538;
+  --rail: #2c0c28;
+  --ink: #dde3e8;
+  --muted: #c3b4c2;
+  --border: #694661;
+  --border-soft: #5a3552;
+  --selected: #dde3e8;
+  --on-selected: #3a0f34;
+  --hover: #59294f;
+  --success: #b4d6b9;
+  --success-bg: #314837;
+  --danger: #f0b3b2;
+  --danger-bg: #62343f;
+  --warm: #5b3c43;
+  --warm-ink: #f2d2b7;
+  --chart: #dab4d1;
+  --goal-bg: #dde3e8;
+  --goal-ink: #3a0f34;
+  --goal-muted: #684d63;
+  --goal-button: #3a0f34;
+  --goal-button-ink: #dde3e8;
+}
+* {
+  box-sizing: border-box;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
+body {
+  margin: 0;
+  min-width: 320px;
+}
+button,
+input,
+select {
+  font: inherit;
+}
+button,
+a,
+input,
+select {
+  -webkit-tap-highlight-color: transparent;
+}
+button,
+a {
+  touch-action: manipulation;
+}
+button {
+  cursor: pointer;
+  color: inherit;
+}
+button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+a {
+  color: inherit;
+  text-decoration: none;
+}
+button:not(:disabled):active {
+  transform: scale(0.98);
+}
+button,
+a,
+input,
+select {
+  transition:
+    background-color 160ms ease,
+    border-color 160ms ease,
+    color 160ms ease;
+}
+:focus-visible {
+  outline: 2px solid var(--chart);
+  outline-offset: 4px;
+}
+::selection {
+  background: var(--selected);
+  color: var(--on-selected);
+}
+input {
+  caret-color: var(--ink);
+}
+input::placeholder {
+  color: var(--muted);
+  opacity: 1;
+}
+input[type="checkbox"] {
+  accent-color: var(--selected);
+  width: 19px;
+  height: 19px;
+}
+input[type="range"] {
+  accent-color: var(--selected);
+}
+input,
+select {
+  color: var(--ink);
+}
+select option {
+  color: var(--ink);
+  background: var(--surface);
+}
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}
